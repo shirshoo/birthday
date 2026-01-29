@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday 🦋</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Jura:wght@300;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #fcfbf9;
+            --ink-color: #2c2c2c;
+            --shadow: 10px 10px 30px rgba(0,0,0,0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--ink-color);
+            min-height: 100vh;
+            font-family: 'Jura', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- ANIMATIONS --- */
+        /* UPDATED ANIMATION: 
+           Uses the CSS variable (--rot) to maintain individual rotation during entrance.
+        */
+        @keyframes frameEnter {
+            from { 
+                opacity: 0; 
+                transform: translateY(50px) scale(0.8) rotate(var(--rot)); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1) rotate(var(--rot)); 
+            }
+        }
+
+        @keyframes centerFadeIn {
+            from { opacity: 0; transform: translate(-50%, -40%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        @keyframes floatText {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translate(-50%, 20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        /* --- 1. MINIMALIST DOODLES (SVG) --- */
+        .art-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; overflow: hidden;
+        }
+
+        .doodle {
+            position: absolute; opacity: 0.5; stroke: var(--ink-color); fill: none; stroke-width: 1; stroke-linecap: round;
+        }
+
+        /* Positions */
+        .flower-1 { top: -5%; left: -2%; width: 300px; transform: rotate(10deg); }
+        .flower-2 { bottom: -5%; right: -5%; width: 350px; transform: rotate(-10deg); }
+        .scribble-1 { top: 15%; right: 10%; width: 150px; opacity: 0.3; }
+        .scribble-2 { bottom: 20%; left: 8%; width: 120px; opacity: 0.3; }
+        .scribble-top-loop { top: -20px; left: 40%; width: 200px; opacity: 0.2; transform: rotate(-5deg); }
+        .scribble-side-wave { top: 30%; left: -30px; width: 100px; height: 400px; opacity: 0.15; }
+        .scribble-zigzag { top: 40%; right: 2%; width: 80px; opacity: 0.25; transform: rotate(15deg); }
+        .scribble-star { top: 10%; left: 20%; width: 60px; opacity: 0.2; }
+        .scribble-hatch { bottom: 5%; left: 45%; width: 120px; opacity: 0.15; }
+
+        /* --- 2. CHAOTIC FRAMES --- */
+        .gallery-container {
+            position: relative; width: 100%; height: 100vh; z-index: 1;
+        }
+
+        .frame {
+            position: absolute; background: #fff; padding: 12px 12px 40px 12px;
+            box-shadow: var(--shadow); width: 180px; height: 240px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer;
+            
+            /* Set baseline transform using variable */
+            transform: rotate(var(--rot, 0deg));
+            
+            /* Entrance Animation */
+            opacity: 0;
+            animation: frameEnter 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        
+        /* Frame Coordinates & Define Rotation Variable */
+        .frame:nth-child(1) { top: 8%; left: 5%; --rot: -8deg; animation-delay: 0.1s; }
+        .frame:nth-child(2) { top: 5%; left: 25%; --rot: 5deg; animation-delay: 0.2s; }
+        .frame:nth-child(3) { top: 12%; right: 5%; --rot: 10deg; animation-delay: 0.3s; }
+        .frame:nth-child(4) { top: 40%; left: 5%; --rot: -3deg; animation-delay: 0.4s; }
+        .frame:nth-child(5) { top: 35%; right: 8%; --rot: -5deg; animation-delay: 0.5s; }
+        .frame:nth-child(6) { bottom: 10%; left: 15%; --rot: 6deg; animation-delay: 0.6s; }
+        .frame:nth-child(7) { bottom: 5%; right: 20%; --rot: -4deg; animation-delay: 0.7s; }
+
+        .frame:hover {
+            /* Important overrides the variable rotation on hover */
+            transform: scale(1.1) rotate(0deg) !important;
+            z-index: 50; box-shadow: 20px 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .photo-placeholder {
+            background: #f4f4f4; width: 100%; height: 100%; display: flex;
+            align-items: center; justify-content: center; color: #ccc;
+            font-weight: 300; font-size: 0.8rem; overflow: hidden;
+            border: 1px solid #eee;
+        }
+        .photo-placeholder img { width: 100%; height: 100%; object-fit: cover; filter: sepia(20%) contrast(90%); }
+
+        .tape {
+            position: absolute; top: -12px; left: 50%; width: 40px; height: 20px;
+            background: rgba(255,255,255,0.6); border: 1px solid rgba(0,0,0,0.1);
+            transform: translateX(-50%) rotate(-2deg); box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            backdrop-filter: blur(2px);
+        }
+
+        /* --- 3. CENTER TEXT --- */
+        .center-text {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            z-index: 10; text-align: center; width: 100%; pointer-events: none;
+            opacity: 0; animation: centerFadeIn 1.5s ease-out forwards; animation-delay: 0.8s;
+        }
+
+        h1 {
+            font-family: 'Monsieur La Doulaise', cursive; font-size: 8rem; color: #1a1a1a; 
+            font-weight: 400; line-height: 0.8; margin-bottom: 20px; 
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.8);
+            animation: floatText 4s ease-in-out infinite; 
+        }
+
+        p {
+            font-family: 'Jura', sans-serif; font-size: 1.2rem; letter-spacing: 3px;
+            text-transform: uppercase; color: #555;
+            background: linear-gradient(transparent 60%, rgba(255, 230, 0, 0.3) 60%);
+            display: inline-block;
+        }
+
+        /* --- 4. BUTTONS --- */
+        .button-container {
+            position: absolute; top: 65%; left: 50%; transform: translateX(-50%);
+            z-index: 20; display: flex; gap: 30px;
+            opacity: 0; animation: fadeInUp 1s ease-out forwards; animation-delay: 1.2s;
+        }
+
+        .btn-icon {
+            width: 55px; height: 55px; border: 1px solid #aaa; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255,255,255,0.6); backdrop-filter: blur(2px); cursor: pointer;
+        }
+        .btn-icon svg { width: 24px; height: 24px; stroke: #444; stroke-width: 1.5; transition: stroke 0.3s; }
+        .btn-icon:hover {
+            transform: scale(1.15) rotate(5deg); border-color: #333; background: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .btn-icon:hover svg { stroke: #000; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 4.5rem; }
+            .frame { width: 120px; height: 160px; opacity: 0.8; }
+            .flower-1, .flower-2 { opacity: 0.3; }
+            .button-container { top: 60%; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="art-layer">
+        <svg class="doodle flower-1" viewBox="0 0 200 200"><path d="M100,200 Q120,150 100,100 M100,100 Q60,60 100,20 M100,20 Q140,60 100,100 M100,100 Q140,100 130,60 M100,100 Q60,100 70,60" fill="none" stroke="#333" stroke-width="1" /><path d="M100,150 Q130,140 140,120" fill="none" stroke="#333" stroke-width="1" /></svg>
+        <svg class="doodle flower-2" viewBox="0 0 200 200"><path d="M100,200 C100,150 150,150 150,100 C150,50 100,50 100,0" fill="none" stroke="#333" stroke-width="1" stroke-dasharray="200" /><circle cx="90" cy="20" r="10" stroke="#333" /><circle cx="110" cy="10" r="8" stroke="#333" /><circle cx="100" cy="35" r="12" stroke="#333" /><path d="M120,130 Q150,120 160,90" fill="none" stroke="#333" /><path d="M100,160 Q60,150 50,120" fill="none" stroke="#333" /></svg>
+        <svg class="doodle scribble-1" viewBox="0 0 100 100"><path d="M10,50 Q30,10 50,50 T90,50" fill="none" stroke="#555" stroke-dasharray="2,4" /></svg>
+        <svg class="doodle scribble-2" viewBox="0 0 100 100"><path d="M20,50 A30,30 0 1,1 80,50 A30,30 0 1,1 20,50" fill="none" stroke="#777" stroke-width="0.5" /></svg>
+        <svg class="doodle scribble-top-loop" viewBox="0 0 200 100"><path d="M0,50 Q50,0 100,50 T200,50" stroke="#888" fill="none" /><path d="M20,60 Q70,10 120,60 T220,60" stroke="#888" fill="none" stroke-dasharray="5,5" /></svg>
+        <svg class="doodle scribble-side-wave" viewBox="0 0 50 200" preserveAspectRatio="none"><path d="M25,0 Q0,50 25,100 T25,200" stroke="#666" stroke-width="0.5" /></svg>
+        <svg class="doodle scribble-zigzag" viewBox="0 0 100 200"><path d="M10,0 L90,20 L10,40 L90,60 L10,80" stroke="#444" stroke-width="0.8" stroke-linejoin="bevel"/></svg>
+        <svg class="doodle scribble-star" viewBox="0 0 100 100"><line x1="50" y1="0" x2="50" y2="100" stroke="#333" stroke-width="0.5" /><line x1="0" y1="50" x2="100" y2="50" stroke="#333" stroke-width="0.5" /><line x1="15" y1="15" x2="85" y2="85" stroke="#333" stroke-width="0.5" /><line x1="85" y1="15" x2="15" y2="85" stroke="#333" stroke-width="0.5" /></svg>
+        <svg class="doodle scribble-hatch" viewBox="0 0 100 50"><line x1="10" y1="0" x2="0" y2="20" stroke="#999" stroke-width="1" /><line x1="30" y1="0" x2="20" y2="20" stroke="#999" stroke-width="1" /><line x1="50" y1="0" x2="40" y2="20" stroke="#999" stroke-width="1" /><line x1="70" y1="0" x2="60" y2="20" stroke="#999" stroke-width="1" /></svg>
+    </div>
+
+    <div class="gallery-container">
+        <div class="frame">
+            <div class="tape">
+
+            </div>
+
+            <div class="photo-placeholder">
+                <img src="img_01.png" alt="1">
+            </div>
+        </div>
+        <div class="frame"><div class="tape"></div><div class="photo-placeholder"><img src="img_02.png" alt="2"></div></div>
+        <div class="frame"><div class="tape"></div><div class="photo-placeholder"><img src="img_03.jpeg" alt="3"></div></div>
+        <div class="frame"><div class="tape"></div><div class="photo-placeholder">I<img src="img_04.jpeg" alt="4"></div></div>
+        <div class="frame"><div class="tape"></div><div class="photo-placeholder"><img src="img_05.png" alt="5"></div></div>
+        <div class="frame"><div class="tape"></div><div class="photo-placeholder"><img src="img_06.png" alt="6"></div></div>
+        <div class="frame"><div class="tape"></div><div class="photo-placeholder"> <img src="img_07.png" alt="7"></div></div>
+        
+    </div>
+
+    <div class="center-text">
+        <h1>Happy Birthday</h1>
+        <p>Another Year of Being The Art</p>
+    </div>
+
+    <div class="button-container">
+        <a href="letter.html" class="btn-icon" title="Read Letter">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        </a>
+        <a href="flower.html" class="btn-icon" title="View Flowers">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5a2.5 2.5 0 0 0-5 0c0 2 2.5 4.5 5 6.5c2.5-2 5-4.5 5-6.5a2.5 2.5 0 0 0-5 0"></path><path d="M12 18.5a2.5 2.5 0 0 0-5 0c0-2 2.5-4.5 5-6.5c2.5 2 5 4.5 5 6.5a2.5 2.5 0 0 0-5 0"></path><path d="M12 12c-2.5 0-4.5-2.5-6.5-5a2.5 2.5 0 0 0 0 5c2 0 4.5 2.5 6.5 5"></path><path d="M12 12c2.5 0 4.5-2.5 6.5-5a2.5 2.5 0 0 1 0 5c-2 0-4.5 2.5-6.5 5"></path><circle cx="12" cy="12" r="1.5"></circle></svg>
+        </a>
+    </div>
+
+</body>
+</html>
